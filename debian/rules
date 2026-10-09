@@ -933,7 +933,7 @@ DH_OPTIONS = python3
 OCAML_ENABLE = no
 OCAML_ARCHS = amd64 arm64 ppc64el riscv64 s390x
 OCAML_RELEASES = bullseye bookworm trixie forky \
-	focal jammy noble plucky resolute stonking
+	focal jammy noble plucky resolute stonking crimson
 ifneq (,$(filter $(DISTRO), $(OCAML_RELEASES)))
   ifneq (,$(filter $(DEB_HOST_ARCH),$(OCAML_ARCHS)))
   # Enable OCAML for this arch.
