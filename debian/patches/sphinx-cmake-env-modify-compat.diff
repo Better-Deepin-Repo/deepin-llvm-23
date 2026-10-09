@@ -1,0 +1,40 @@
+Description: Don't use "cmake -E env --modify" with CMake < 3.25
+ Upstream commit 42ff45b865b1 ("[docs] Create utils/docs", #203962) injects
+ utils/docs into PYTHONPATH with:
+   cmake -E env --modify "PYTHONPATH=path_list_append:..."
+ but --modify was only added in CMake 3.25, while LLVM still declares
+ cmake_minimum_required(VERSION 3.20.0).  On Ubuntu jammy (cmake 3.22.1)
+ every docs-*-man / docs-*-html target fails with:
+   cmake -E env: unknown option '--modify'
+ Fall back to a plain PYTHONPATH=... assignment there, preserving any
+ PYTHONPATH already set at configure time.
+Author: Sylvestre Ledru <sylvestre@debian.org>
+Forwarded: no
+Index: llvm-toolchain-23_23.1.2~++20260916114659+21a77e7bb6bf/llvm/cmake/modules/AddSphinxTarget.cmake
+===================================================================
+--- llvm-toolchain-23_23.1.2~++20260916114659+21a77e7bb6bf.orig/llvm/cmake/modules/AddSphinxTarget.cmake
++++ llvm-toolchain-23_23.1.2~++20260916114659+21a77e7bb6bf/llvm/cmake/modules/AddSphinxTarget.cmake
+@@ -40,9 +40,22 @@ function (add_sphinx_target builder proj
+     set(ARG_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}")
+   endif()
+ 
++  # "cmake -E env --modify" requires CMake >= 3.25, but LLVM only requires
++  # 3.20. Fall back to a plain assignment on older CMake.
++  if (CMAKE_VERSION VERSION_LESS 3.25)
++    set(SPHINX_PYTHONPATH "${LLVM_MAIN_SRC_DIR}/../utils/docs")
++    if (NOT "$ENV{PYTHONPATH}" STREQUAL "")
++      set(SPHINX_PYTHONPATH "$ENV{PYTHONPATH}:${SPHINX_PYTHONPATH}")
++    endif()
++    set(SPHINX_PYTHONPATH_ARGS "PYTHONPATH=${SPHINX_PYTHONPATH}")
++  else()
++    set(SPHINX_PYTHONPATH_ARGS --modify
++        "PYTHONPATH=path_list_append:${LLVM_MAIN_SRC_DIR}/../utils/docs")
++  endif()
++
+   add_custom_target(${SPHINX_TARGET_NAME}
+                     COMMAND ${CMAKE_COMMAND} -E env ${ARG_ENV_VARS}
+-                            --modify "PYTHONPATH=path_list_append:${LLVM_MAIN_SRC_DIR}/../utils/docs"
++                            ${SPHINX_PYTHONPATH_ARGS}
+                             ${SPHINX_EXECUTABLE}
+                             -b ${builder}
+                             -d "${SPHINX_DOC_TREE_DIR}"

@@ -1,0 +1,28 @@
+From c3ee9ea6952286c571595ee20c0656f8e6974150 Mon Sep 17 00:00:00 2001
+From: "Mikhail R. Gadelha" <mikhail@igalia.com>
+Date: Sat, 19 Jul 2025 14:30:18 -0300
+Subject: [PATCH] [libc] Fix setitimer build when full_build=OFF
+
+When we pull the headers from the system, we might get a suseconds_t
+that's a long long, so add a cast to prevent a implicit conversion
+error.
+---
+ libc/src/sys/time/linux/setitimer.cpp | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/libc/src/sys/time/linux/setitimer.cpp b/libc/src/sys/time/linux/setitimer.cpp
+index 1de0d43297760..fb163586e30d9 100644
+--- a/libc/src/sys/time/linux/setitimer.cpp
++++ b/libc/src/sys/time/linux/setitimer.cpp
+@@ -22,9 +22,9 @@ LLVM_LIBC_FUNCTION(int, setitimer,
+     // There is no SYS_setitimer_time64 call, so we can't use time_t directly,
+     // and need to convert it to long first.
+     long new_value32[4] = {static_cast<long>(new_value->it_interval.tv_sec),
+-                           new_value->it_interval.tv_usec,
++                           static_cast<long>(new_value->it_interval.tv_usec),
+                            static_cast<long>(new_value->it_value.tv_sec),
+-                           new_value->it_value.tv_usec};
++                           static_cast<long>(new_value->it_value.tv_usec)};
+     long old_value32[4];
+ 
+     ret = LIBC_NAMESPACE::syscall_impl<long>(SYS_setitimer, which, new_value32,

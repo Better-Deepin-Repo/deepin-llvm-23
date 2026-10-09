@@ -1,0 +1,5 @@
+# libMLIR.so.* is installed in the multiarch path (see the .install file);
+# keep the historical location as a symlink: libmlir-@LLVM_VERSION@-dev ships
+# @LLVM_LIBDIR@/libMLIR.so pointing there, and the mlir tools have
+# @LLVM_LIBDIR@ in their RUNPATH.
+usr/lib/@DEB_HOST_MULTIARCH@/libMLIR.so.@LLVM_VERSION@.@LLVM_VERSION_MINOR@ @LLVM_LIBDIR@/libMLIR.so.@LLVM_VERSION@.@LLVM_VERSION_MINOR@

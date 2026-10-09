@@ -1,0 +1,8 @@
+# links from LLVM libdir to /usr/lib/@DEB_HOST_MULTIARCH@
+usr/lib/@DEB_HOST_MULTIARCH@/libunwind.a         @LLVM_LIBDIR@/libunwind.a
+# this one is not in the runtime package to make it M-A: same
+usr/lib/@DEB_HOST_MULTIARCH@/libunwind.so.1.0    @LLVM_LIBDIR@/libunwind.so.1.0
+
+# links inside LLVM libdir
+@LLVM_LIBDIR@/libunwind.so.1.0 @LLVM_DIR@/lib/libunwind.so.1
+@LLVM_LIBDIR@/libunwind.so.1   @LLVM_DIR@/lib/libunwind.so

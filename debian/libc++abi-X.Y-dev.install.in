@@ -1,0 +1,3 @@
+@LLVM_LIBDIR@/libc++abi*so usr/lib/@DEB_HOST_MULTIARCH@/
+@LLVM_LIBDIR@/libc++abi.a  usr/lib/@DEB_HOST_MULTIARCH@/
+libcxxabi/include/* @LLVM_DIR@/include/

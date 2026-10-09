@@ -1,0 +1,31 @@
+#!/usr/bin/dh-exec
+
+@LLVM_LIBDIR@/libLLVM*.a
+#@LLVM_LIBDIR@/libllvm*.a
+@LLVM_LIBDIR@/libLLVM.so
+@LLVM_LIBDIR@/libLLVM-@LLVM_VERSION@*.so
+@LLVM_LIBDIR@/libLTO.so
+@LLVM_LIBDIR@/libRemarks.*
+@LLVM_DIR@/include/llvm/      usr/include/llvm-@LLVM_VERSION@/
+@LLVM_DIR@/include/llvm-c/	usr/include/llvm-c-@LLVM_VERSION@/
+# Explicit debian/tmp since there are multiple declarations
+debian/tmp/@LLVM_LIBDIR@/cmake/llvm/*.cmake
+debian/tmp/@LLVM_LIBDIR@/cmake/llvm/llvm-driver-template.cpp.in
+
+llvm/utils/vim/indent/llvm-@LLVM_VERSION@.vim		        usr/share/vim/addons/indent/
+
+llvm/utils/vim/syntax/llvm-@LLVM_VERSION@.vim		        usr/share/vim/addons/syntax/
+llvm/utils/vim/syntax/tablegen-@LLVM_VERSION@.vim		    usr/share/vim/addons/syntax/
+
+llvm/utils/vim/ftdetect/llvm-@LLVM_VERSION@.vim		        usr/share/vim/addons/ftdetect/
+llvm/utils/vim/ftdetect/tablegen-@LLVM_VERSION@.vim		    usr/share/vim/addons/ftdetect/
+
+llvm/utils/vim/ftplugin/llvm-@LLVM_VERSION@.vim		        usr/share/vim/addons/ftplugin/
+llvm/utils/vim/ftplugin/tablegen-@LLVM_VERSION@.vim		    usr/share/vim/addons/ftplugin/
+
+llvm/utils/vim/llvm-@LLVM_VERSION@-vimrc		            usr/share/vim/addons
+
+
+llvm/utils/emacs/emacs.el		    usr/share/emacs/site-lisp/llvm-@LLVM_VERSION@/
+llvm/utils/emacs/llvm-mode.el	    usr/share/emacs/site-lisp/llvm-@LLVM_VERSION@/
+llvm/utils/emacs/tablegen-mode.el	usr/share/emacs/site-lisp/llvm-@LLVM_VERSION@/

@@ -1,0 +1,2 @@
+@LLVM_DIR@/include/lld
+@LLVM_LIBDIR@/cmake/lld/*.cmake

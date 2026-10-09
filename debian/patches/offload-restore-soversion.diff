@@ -1,0 +1,50 @@
+Description: Restore VERSION/SOVERSION on liboffload shared libraries
+ Upstream commit 3383f0d6fe01 ("[Offload] Fix build install directory and
+ remove 'add_llvm_library'") replaced add_llvm_library() with plain
+ add_library() for the LLVMOffload and omptarget shared libraries.
+ add_llvm_library() implicitly set VERSION/SOVERSION to
+ LLVM_VERSION_MAJOR.LLVM_VERSION_MINOR (see
+ llvm/cmake/modules/AddLLVM.cmake), producing
+ libLLVMOffload.so.23.0 and libomptarget.so.23.0.
+ .
+ With that property gone, the libraries are installed without any
+ version suffix, breaking the Debian packaging which ships
+ liboffload-23 with the .so.23.0 SONAME-style files. dh_install fails:
+ .
+   dh_install: warning: Cannot find (any matches for)
+     "usr/lib/llvm-23/lib/libLLVMOffload.so.23.0"
+   dh_install: warning: Cannot find (any matches for)
+     "usr/lib/llvm-23/lib/libomptarget*.so.23.0"
+ .
+ Restore the previous behavior by setting VERSION and SOVERSION
+ explicitly on both targets.
+Bug: https://github.com/llvm/llvm-project/issues/198622
+Forwarded: no
+Author: Sylvestre Ledru <sylvestre@debian.org>
+
+Index: llvm-toolchain-snapshot_23~++20260528104113+af772866888e/offload/liboffload/CMakeLists.txt
+===================================================================
+--- llvm-toolchain-snapshot_23~++20260528104113+af772866888e.orig/offload/liboffload/CMakeLists.txt
++++ llvm-toolchain-snapshot_23~++20260528104113+af772866888e/offload/liboffload/CMakeLists.txt
+@@ -40,6 +40,8 @@ target_compile_definitions(LLVMOffload P
+ 
+ set_target_properties(LLVMOffload PROPERTIES
+                       POSITION_INDEPENDENT_CODE ON
++                      VERSION ${LLVM_VERSION_MAJOR}.${LLVM_VERSION_MINOR}
++                      SOVERSION ${LLVM_VERSION_MAJOR}.${LLVM_VERSION_MINOR}
+                       INSTALL_RPATH "$ORIGIN"
+                       BUILD_RPATH "$ORIGIN:${CMAKE_CURRENT_BINARY_DIR}/..")
+ if(UNIX AND NOT APPLE)
+Index: llvm-toolchain-snapshot_23~++20260528104113+af772866888e/offload/libomptarget/CMakeLists.txt
+===================================================================
+--- llvm-toolchain-snapshot_23~++20260528104113+af772866888e.orig/offload/libomptarget/CMakeLists.txt
++++ llvm-toolchain-snapshot_23~++20260528104113+af772866888e/offload/libomptarget/CMakeLists.txt
+@@ -55,6 +55,8 @@ target_link_options(omptarget PRIVATE ${
+ # are now separated in the build directory.
+ set_target_properties(omptarget PROPERTIES
+                       POSITION_INDEPENDENT_CODE ON
++                      VERSION ${LLVM_VERSION_MAJOR}.${LLVM_VERSION_MINOR}
++                      SOVERSION ${LLVM_VERSION_MAJOR}.${LLVM_VERSION_MINOR}
+                       INSTALL_RPATH "$ORIGIN"
+                       BUILD_RPATH "$ORIGIN:${CMAKE_CURRENT_BINARY_DIR}/..")
+ if(UNIX AND NOT APPLE)

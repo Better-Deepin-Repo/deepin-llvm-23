@@ -1,0 +1,2 @@
+usr/lib/llvm-@LLVM_VERSION@/lib/clang/@LLVM_VERSION@/lib/*/*.bc
+#spv usr/lib/clc/*.spv

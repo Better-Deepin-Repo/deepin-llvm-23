@@ -1,0 +1,16 @@
+llvm-toolchain-21 (1:21.1.4-4) unstable; urgency=medium
+
+  In order to allow for smoother upgrades for packages whose programs
+  dynamically link against them, we have renamed the libc++1-22,
+  libc++abi1-22, and llvm-libunwind-22 libraries to drop the major versions.
+  Henceforth, the shared libraries will be in the libc++1, libc++abi1,
+  and llvm-libunwind1 packages.
+
+  This brings LLVM's libc++ packages in line with the conventions of
+  GNU GCC's libstdc++ packages. As of June 2025, upstream has documented
+  guarantees that upgrades of libc++ will not break application binary
+  interfaces:
+  https://github.com/llvm/llvm-project/blob/main/libcxx/docs/ABIGuarantees.rst
+
+ -- Andres Salomon <dilinger@debian.org>  Sat, 13 Sep 2025 04:25:28 -0400
+

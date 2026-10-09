@@ -1,0 +1,4 @@
+libclang-rt-@LLVM_VERSION@-dev: arch-dependent-file-not-in-arch-specific-directory *@LLVM_LIBDIR@/*
+libclang-rt-@LLVM_VERSION@-dev: no-code-sections *@LLVM_LIBDIR@/clang/@LLVM_VERSION@*/lib/linux/libclang_rt.asan_static-i386.a*
+libclang-rt-@LLVM_VERSION@-dev: binary-from-other-architecture
+libclang-rt-@LLVM_VERSION@-dev: package-depends-on-multiple-libstdc-versions

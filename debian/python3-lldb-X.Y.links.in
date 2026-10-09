@@ -1,0 +1,5 @@
+# symlink to the library, not the .so symlink
+usr/lib/@DEB_HOST_MULTIARCH@/liblldb-@LLVM_VERSION@.so.1      @LLVM_LIBDIR@/@PYTHON3@/site-packages/lldb/native/_lldb@PY_EXT_SUFFIX@
+
+# make the whole package known to the system Python
+@LLVM_LIBDIR@/@PYTHON3@/site-packages/lldb/ usr/lib/python3/dist-packages/lldb

@@ -1,0 +1,20 @@
+Fix emutls.c build for mingw-w64 targets: InitOnceExecuteOnce requires
+_WIN32_WINNT >= 0x0600 (Vista), but mingw-w64 defaults to 0x0502 (XP SP2).
+Ensure the minimum version is set before including windows.h.
+
+Index: llvm-toolchain-snapshot_23~++20260522073151+ec4681df3d6b/compiler-rt/lib/builtins/emutls.c
+===================================================================
+--- llvm-toolchain-snapshot_23~++20260522073151+ec4681df3d6b.orig/compiler-rt/lib/builtins/emutls.c
++++ llvm-toolchain-snapshot_23~++20260522073151+ec4681df3d6b/compiler-rt/lib/builtins/emutls.c
+@@ -136,6 +136,11 @@ static __inline void emutls_unlock(void)
+ #else // _WIN32
+ 
+ #include <assert.h>
++// InitOnceExecuteOnce requires _WIN32_WINNT >= 0x0600 (Vista). mingw-w64
++// defaults to 0x0502, so ensure the minimum version is set before windows.h.
++#if !defined(_WIN32_WINNT) || _WIN32_WINNT < 0x0600
++#define _WIN32_WINNT 0x0600
++#endif
+ #include <malloc.h>
+ #include <stdio.h>
+ #include <windows.h>

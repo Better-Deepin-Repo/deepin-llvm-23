@@ -1,0 +1,35 @@
+commit 112ffe7c621e8bf145c5c5926e36f3af9e0fd045
+Author: Sylvestre Ledru <sylvestre@debian.org>
+Date:   Tue Apr 22 11:50:58 2025 +0200
+
+    Add support of the next Ubuntu (Ubuntu 25.10 - Questing Quokka)
+
+--- a/clang/include/clang/Driver/Distro.h
++++ b/clang/include/clang/Driver/Distro.h
+@@ -74,6 +74,7 @@ public:
+     UbuntuPlucky,
+     UbuntuQuesting,
+     UbuntuResolute,
++    UbuntuStonking,
+     UnknownDistro
+   };
+ 
+@@ -125,7 +126,7 @@ public:
+   }
+ 
+   bool IsUbuntu() const {
+-    return DistroVal >= UbuntuQuantal && DistroVal <= UbuntuResolute;
++    return DistroVal >= UbuntuQuantal && DistroVal <= UbuntuStonking;
+   }
+ 
+   bool IsAlpineLinux() const { return DistroVal == AlpineLinux; }
+--- a/clang/lib/Driver/Distro.cpp
++++ b/clang/lib/Driver/Distro.cpp
+@@ -89,6 +89,7 @@ static Distro::DistroType DetectLsbRelea
+                     .Case("plucky", Distro::UbuntuPlucky)
+                     .Case("questing", Distro::UbuntuQuesting)
+                     .Case("resolute", Distro::UbuntuResolute)
++                    .Case("stonking", Distro::UbuntuStonking)
+                     .Default(Distro::UnknownDistro);
+   return Version;
+ }

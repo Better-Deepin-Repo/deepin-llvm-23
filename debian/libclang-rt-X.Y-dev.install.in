@@ -1,0 +1,9 @@
+#!/usr/bin/dh-exec
+
+@LLVM_LIBDIR@/clang/@LLVM_VERSION@*/share/*.txt
+@LLVM_LIBDIR@/clang/@LLVM_VERSION@*/include/sanitizer/
+@LLVM_LIBDIR@/clang/@LLVM_VERSION@*/lib/*/*clang_rt*
+@LLVM_LIBDIR@/clang/@LLVM_VERSION@*/README.txt
+@LLVM_LIBDIR@/clang/@LLVM_VERSION@*/include/fuzzer/
+[@RT_ORC_ARCHS@] @LLVM_LIBDIR@/clang/@LLVM_VERSION@*/include/orc/c_api.h
+[@RT_ORC_ARCHS@] @LLVM_LIBDIR@/clang/@LLVM_VERSION@*/lib/linux/liborc_rt*

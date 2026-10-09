@@ -1,0 +1,2 @@
+@LLVM_LIBDIR@/wasm32-wasi/libc++.a /usr/lib/wasm32-wasi/libc++.a
+@LLVM_DIR@/include/wasm32-wasi/c++/v1 /usr/include/wasm32-wasi/c++/v1

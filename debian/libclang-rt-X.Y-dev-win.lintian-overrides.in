@@ -1,0 +1,4 @@
+libclang-rt-@LLVM_VERSION@-dev-win: arch-independent-package-contains-binary-or-object *@LLVM_LIBDIR@/*
+libclang-rt-@LLVM_VERSION@-dev-win: arch-dependent-file-not-in-arch-specific-directory *@LLVM_LIBDIR@/*
+
+libclang-rt-@LLVM_VERSION@-dev-win: no-code-sections *@LLVM_LIBDIR@/clang/@LLVM_VERSION@*/lib/windows/libclang_rt.*.a*

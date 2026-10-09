@@ -1,0 +1,2 @@
+liboffload-@LLVM_VERSION@-dev: no-code-sections
+liboffload-@LLVM_VERSION@-dev: no-manual-page

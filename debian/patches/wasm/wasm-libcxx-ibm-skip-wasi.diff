@@ -1,0 +1,33 @@
+Description: Skip libcxx ibm.h fallback declarations of strtod_l/strtof_l/strtold_l/vasprintf on WASI
+ The libcxx ibm.h header (used as a fallback when no platform-specific
+ locale_base_api support exists) provides inline replacements for
+ strtod_l, strtof_l, strtold_l and vasprintf, marked with
+ _LIBCPP_HIDE_FROM_ABI which adds the __abi_tag__ attribute. These
+ functions are already declared in the WASI sysroot's libc headers
+ (/usr/include/wasm32-wasi/stdlib.h and stdio.h) without that attribute,
+ and clang rejects redeclarations that add abi_tag:
+   error: cannot add 'abi_tag' attribute in a redeclaration
+ Skip the fallback definitions on WASI since libc already provides them.
+Author: Sylvestre Ledru <sylvestre@debian.org>
+Forwarded: no
+Last-Update: 2026-05-26
+
+Index: llvm-toolchain-snapshot/libcxx/include/__locale_dir/locale_base_api/ibm.h
+===================================================================
+--- llvm-toolchain-snapshot.orig/libcxx/include/__locale_dir/locale_base_api/ibm.h
++++ llvm-toolchain-snapshot/libcxx/include/__locale_dir/locale_base_api/ibm.h
+@@ -51,6 +51,7 @@ private:
+
+ } // namespace
+
++#if !defined(__wasi__)
+ // The following are not POSIX routines.  These are quick-and-dirty hacks
+ // to make things pretend to work
+ inline _LIBCPP_HIDE_FROM_ABI double strtod_l(const char* __nptr, char** __endptr, locale_t locale) {
+@@ -93,5 +94,6 @@ _LIBCPP_ATTRIBUTE_FORMAT(__printf__, 2,
+   }
+   return str_size;
+ }
++#endif // !defined(__wasi__)
+
+ #endif // _LIBCPP___LOCALE_DIR_LOCALE_BASE_API_IBM_H

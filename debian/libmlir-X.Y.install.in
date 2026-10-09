@@ -1,0 +1,3 @@
+@LLVM_LIBDIR@/libMLIR.so.* /usr/lib/@DEB_HOST_MULTIARCH@/
+@LLVM_LIBDIR@/libmlir*.so.*
+@LLVM_LIBDIR@/libMLIRExecutionEngineShared.so.*

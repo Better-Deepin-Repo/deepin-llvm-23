@@ -1,0 +1,13 @@
+@LLVM_LIBDIR@/cmake/flang/
+@LLVM_DIR@/include/flang/
+@LLVM_LIBDIR@/clang/@LLVM_VERSION@/finclude/
+@LLVM_LIBDIR@/libflang*.a
+@LLVM_LIBDIR@/libflangFrontendTool.a
+@LLVM_LIBDIR@/libFlangOpenMPTransforms.a
+@LLVM_LIBDIR@/libFIR*.a
+@LLVM_LIBDIR@/libHLFIR*.a
+@LLVM_LIBDIR@/libFortran*.a
+@LLVM_LIBDIR@/libCUF*.a
+@LLVM_LIBDIR@/libMIFDialect.a
+
+@LLVM_LIBDIR@/clang/@LLVM_VERSION@/lib/*/libflang_rt.runtime.a

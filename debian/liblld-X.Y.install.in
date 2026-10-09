@@ -1,0 +1,7 @@
+#@LLVM_LIBDIR@/liblld-@LLVM_VERSION@.so.1 /usr/lib/@DEB_HOST_MULTIARCH@/
+@LLVM_LIBDIR@/liblldELF.a
+@LLVM_LIBDIR@/liblldMachO.a
+@LLVM_LIBDIR@/liblldCOFF.a
+@LLVM_LIBDIR@/liblldMinGW.a
+@LLVM_LIBDIR@/liblldCommon.a
+@LLVM_LIBDIR@/liblldWasm.a

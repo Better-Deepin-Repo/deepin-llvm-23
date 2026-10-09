@@ -1,0 +1,22 @@
+Description: Add versioning to installed libomp shared library
+ This match adds the ABI version to the installed OpenMP runtime in
+ order to allow multiple different ABI versions to be installed on the
+ system simultaneously.
+Author: Reshabh Sharma <reshabhsh@gmail.com>
+Forwarded: not-needed
+Last-Update: 2026-06-05
+---
+Index: llvm-toolchain-snapshot_23~++20260614031517+86543b7a7c3c/openmp/runtime/CMakeLists.txt
+===================================================================
+--- llvm-toolchain-snapshot_23~++20260614031517+86543b7a7c3c.orig/openmp/runtime/CMakeLists.txt
++++ llvm-toolchain-snapshot_23~++20260614031517+86543b7a7c3c/openmp/runtime/CMakeLists.txt
+@@ -420,7 +420,8 @@ else()
+   set(LIBOMP_INSTALL_KIND ARCHIVE)
+ endif()
+ 
+-set(LIBOMP_LIB_FILE ${LIBOMP_LIB_NAME}${LIBOMP_LIBRARY_SUFFIX})
++set(LIBOMP_LIB_FILE ${LIBOMP_LIB_NAME}${CMAKE_SHARED_LIBRARY_SUFFIX}.${LIBOMP_VERSION_MAJOR})
++
+ 
+ # Optional backwards compatibility aliases.
+ set(LIBOMP_INSTALL_ALIASES TRUE CACHE BOOL

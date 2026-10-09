@@ -1,0 +1,2 @@
+@LLVM_LIBDIR@/clang/@LLVM_VERSION@*/lib/windows/libclang_rt.*.a
+

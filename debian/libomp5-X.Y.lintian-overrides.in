@@ -1,0 +1,1 @@
+libomp5-@LLVM_VERSION@: arch-dependent-file-not-in-arch-specific-directory *@LLVM_LIBDIR@/libomp.so.5*

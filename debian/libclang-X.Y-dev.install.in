@@ -1,0 +1,14 @@
+#!/usr/bin/dh-exec
+
+@LLVM_DIR@/include/clang
+@LLVM_DIR@/include/clang-c
+@LLVM_DIR@/include/clang-tidy
+@LLVM_LIBDIR@/libclang*a
+@LLVM_LIBDIR@/libclang.so
+@LLVM_LIBDIR@/libclang-@LLVM_VERSION@*.so
+@LLVM_LIBDIR@/libfindAllSymbols.a
+
+# clangd grpc architectures
+#grpc [@CLANG_GRPC_ARCHS@] @LLVM_LIBDIR@/libclangdRemoteIndexProto.a
+#grpc [@CLANG_GRPC_ARCHS@] @LLVM_LIBDIR@/libclangdRemoteIndexServiceProto.a
+#grpc [@CLANG_GRPC_ARCHS@] @LLVM_LIBDIR@/libclangdMonitoringServiceProto.a

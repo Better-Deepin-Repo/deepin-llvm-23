@@ -1,0 +1,26 @@
+usr/include/llvm-c-@LLVM_VERSION@/llvm-c @LLVM_DIR@/include/llvm-c
+usr/include/llvm-@LLVM_VERSION@/llvm @LLVM_DIR@/include/llvm
+usr/include/llvm-c-@LLVM_VERSION@/llvm-c @LLVM_DIR@/build/include/llvm-c
+usr/include/llvm-@LLVM_VERSION@/llvm @LLVM_DIR@/build/include/llvm
+
+@LLVM_DIR@/include/ @LLVM_DIR@/build/include
+@LLVM_LIBDIR@/     @LLVM_DIR@/build/lib
+@LLVM_DIR@/share/   @LLVM_DIR@/build/share
+@LLVM_DIR@/ @LLVM_DIR@/build/Release
+@LLVM_DIR@/ @LLVM_DIR@/build/Debug+Asserts
+
+@LLVM_LIBDIR@/cmake/llvm @LLVM_DIR@/cmake
+@LLVM_LIBDIR@/cmake/llvm @LLVM_DIR@/share/llvm/cmake
+
+# FIXME: CMake requires this file, but for what? Fix LLVMExports.cmake instead?
+#
+# CMake Error at /usr/lib/llvm-19/lib/cmake/llvm/LLVMExports.cmake:1908 (message):
+#  The imported target "LLVM" references the file
+#
+#     "/usr/lib/llvm-19/lib/libLLVM.so.1"
+#
+#  but this file does not exist.
+@LLVM_LIBDIR@/libLLVM.so.@LLVM_VERSION@.@LLVM_VERSION_MINOR@ @LLVM_DIR@/lib/libLLVM.so.1
+
+# symlink to the soname in the llvm libdir
+usr/lib/@DEB_HOST_MULTIARCH@/libLLVM.so.@LLVM_VERSION@.@LLVM_VERSION_MINOR@ @LLVM_LIBDIR@/libLLVM.so.@LLVM_VERSION@.@LLVM_VERSION_MINOR@

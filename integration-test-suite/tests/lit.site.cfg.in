@@ -1,0 +1,86 @@
+import os
+import lit
+import re
+import subprocess
+
+config.name = 'LLVM regression suite'
+config.test_format = lit.formats.ShTest()
+config.suffixes = ['.ll', '.c', '.cpp', '.test', '.txt', '.s', '.mir', '.mlir']
+config.test_source_root = os.path.join("@CMAKE_CURRENT_SOURCE_DIR@", "tests")
+config.excludes = ['Inputs']
+
+config.available_features.add("@CMAKE_HOST_SYSTEM_PROCESSOR@")
+
+def enable_feature(name, option):
+    if option.lower() in ('on', 1):
+        config.available_features.add(name)
+
+def enable_program(name, binary):
+    if os.path.exists(binary):
+        config.available_features.add(name)
+        config.substitutions.append(('%'+name, binary))
+
+def enable_library(name, library):
+    if os.path.exists(library):
+        config.available_features.add(name)
+
+# The order matters, e.g. substitution for clang-format-diff
+# must appear before clang-format, because the latter is a prefix of the former.
+
+enable_program('cc', "@CMAKE_C_COMPILER@")
+enable_program('cxx', "@CMAKE_CXX_COMPILER@")
+enable_program('clang-tidy', "@CLANG_TIDY_BINARY@")
+enable_program('clang-format-diff', "@CLANG_FORMAT_DIFF_BINARY@")
+enable_program('clang-format', "@CLANG_FORMAT_BINARY@")
+enable_program('clangd', "@CLANGD_BINARY@")
+enable_program('clangxx', "@CLANGXX_BINARY@")
+enable_program('clang', "@CLANG_BINARY@")
+enable_program('llvm-nm', "@LLVMNM@")
+enable_program('llc', "@LLC@")
+enable_program('lli', "@LLI@")
+enable_program('opt', "@OPT@")
+enable_program('llvm-profdata', "@LLVMPROFDATA@")
+enable_program('llvm-config', "@LLVMCONFIG_BINARY@")
+enable_program('llvm-objdump', "@LLVMOBJDUMP_BINARY@")
+enable_program('lldb', "@LLDB_BINARY@")
+enable_program('lld', "@LLD_BINARY@")
+enable_program('scan-build-py', "@SCANBUILDPY@")
+enable_program('scan-build', "@SCANBUILD@")
+enable_program('scan-view', "@SCANVIEW@")
+enable_program('opt', "@OPT_BINARY@")
+enable_program('mlir-translate', "@MLIRTRANSLATE@")
+
+enable_library('libomp', "@LIBOMP@")
+
+config.substitutions.append(('%cmake', '@CMAKE_COMMAND@'))
+
+enable_feature("compiler-rt", "@ENABLE_COMPILER_RT@")
+enable_feature("libc++", "@ENABLE_LIBCXX@")
+enable_feature("static-libc++", "@ENABLE_STATIC_LIBCXX@")
+enable_feature("libunwind", "@ENABLE_LIBUNWIND@")
+enable_feature("support_hwasan", "@ENABLE_HWASAN@")
+enable_feature("float16", "@ENABLE_FLOAT16@")
+enable_feature("gold", "@ENABLE_GOLD_TESTS@")
+
+def getLLVMMajorVersion():
+    out = subprocess.run(["@LLVMCONFIG_BINARY@", "--version"], capture_output=True)
+    m = re.match(r'^([0-9]+).', out.stdout.decode('utf-8'))
+    if m:
+        return int(m.group(1))
+    else:
+        raise BaseException("Could not parse LLVM version"
+                            + out.stdout.decode('utf-8'))
+
+if "s390x" == "@CMAKE_HOST_SYSTEM_PROCESSOR@" and getLLVMMajorVersion() < 21:
+   config.available_features.add("availability-compiler-rt-builtins-missing")
+
+# This is necessary because LLVM 20 and earlier versions do build libunwind
+# on s390x even though the library is broken.
+if "s390x" == "@CMAKE_HOST_SYSTEM_PROCESSOR@" and getLLVMMajorVersion() < 22:
+   config.available_features.add("availability-libunwind-missing")
+
+if getLLVMMajorVersion() < 24 and \
+   ("s390x" == "@CMAKE_HOST_SYSTEM_PROCESSOR@"
+    or "ppc64le" == "@CMAKE_HOST_SYSTEM_PROCESSOR@"
+    or "ppc64" == "@CMAKE_HOST_SYSTEM_PROCESSOR@"):
+   config.available_features.add("availability-lto-cfi-missing")

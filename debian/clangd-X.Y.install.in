@@ -1,0 +1,3 @@
+@LLVM_DIR@/bin/clangd
+usr/bin/clangd-@LLVM_VERSION@
+

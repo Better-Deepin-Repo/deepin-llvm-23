@@ -1,0 +1,16 @@
+Index: llvm-toolchain-snapshot_23~++20260522073151+ec4681df3d6b/llvm/lib/TargetParser/ARMTargetParser.cpp
+===================================================================
+--- llvm-toolchain-snapshot_23~++20260522073151+ec4681df3d6b.orig/llvm/lib/TargetParser/ARMTargetParser.cpp
++++ llvm-toolchain-snapshot_23~++20260522073151+ec4681df3d6b/llvm/lib/TargetParser/ARMTargetParser.cpp
+@@ -658,9 +658,9 @@ StringRef ARM::getARMCPUForArch(const ll
+     case llvm::Triple::GNUEABIHF:
+     case llvm::Triple::GNUEABIHFT64:
+     case llvm::Triple::MuslEABIHF:
+-      return "cortex-a7";
++      return "cortex-a8";
+     default:
+-      return "arm7tdmi";
++      return "arm926ej-s";
+     }
+   }
+ 

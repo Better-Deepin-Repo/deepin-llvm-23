@@ -1,0 +1,2 @@
+@LLVM_LIBDIR@/libclang-cpp.so /usr/lib/@DEB_HOST_MULTIARCH@/libclang-cpp@LLVM_VERSION@.so
+@LLVM_LIBDIR@/libclang-cpp.so /@LLVM_DIR@/lib/libclang-cpp@LLVM_VERSION@.so

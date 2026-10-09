@@ -1,0 +1,33 @@
+Index: llvm-toolchain-snapshot_23~++20260614031517+86543b7a7c3c/clang/lib/Driver/ToolChains/Linux.cpp
+===================================================================
+--- llvm-toolchain-snapshot_23~++20260614031517+86543b7a7c3c.orig/clang/lib/Driver/ToolChains/Linux.cpp
++++ llvm-toolchain-snapshot_23~++20260614031517+86543b7a7c3c/clang/lib/Driver/ToolChains/Linux.cpp
+@@ -12,6 +12,7 @@
+ #include "Arch/Mips.h"
+ #include "Arch/PPC.h"
+ #include "Arch/RISCV.h"
++#include "clang/Basic/Version.h"
+ #include "clang/Config/config.h"
+ #include "clang/Driver/CommonArgs.h"
+ #include "clang/Driver/Distro.h"
+@@ -763,8 +764,18 @@ void Linux::AddClangSystemIncludeArgs(co
+   SmallString<128> ResourceDirInclude(D.ResourceDir);
+   llvm::sys::path::append(ResourceDirInclude, "include");
+   if (!DriverArgs.hasArg(options::OPT_nobuiltininc) &&
+-      (!getTriple().isMusl() || DriverArgs.hasArg(options::OPT_nostdlibinc)))
+-    addSystemInclude(DriverArgs, CC1Args, ResourceDirInclude);
++      (!getTriple().isMusl() || DriverArgs.hasArg(options::OPT_nostdlibinc))) {
++      if (llvm::sys::fs::exists(ResourceDirInclude)) {
++          /* Include the build include directory only
++           * Otherwise, it fails with stage2 when clang headers are available on the system
++           * they usually fail because of the include_next. Two llvm/clang headers are found
++           * while we are waiting for the lib C++ (std or not)
++           */
++          addSystemInclude(DriverArgs, CC1Args, ResourceDirInclude);
++      } else {
++          addSystemInclude(DriverArgs, CC1Args, "/usr/include/clang/" + std::string(CLANG_VERSION_STRING) + "/include/");
++      }
++  }
+ 
+   if (DriverArgs.hasArg(options::OPT_nostdlibinc))
+     return;

@@ -1,0 +1,2 @@
+# That is normal. The lib is not (yet?) shipped as a new package
+liblldb-@LLVM_VERSION@: package-name-doesnt-match-sonames liblldb-@LLVM_VERSION@-1

@@ -1,0 +1,2 @@
+@LLVM_DIR@/bin/lldb-server @LLVM_DIR@/bin/lldb-server-@LLVM_VERSION_FULL@
+@LLVM_DIR@/bin/lldb-server @LLVM_DIR@/bin/lldb-server-@LLVM_VERSION@

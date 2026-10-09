@@ -1,0 +1,2 @@
+libc++abi-@LLVM_VERSION@-dev-wasm32: arch-independent-package-contains-binary-or-object *@LLVM_LIBDIR@/wasm32-wasi/libc++abi.a*
+libc++abi-@LLVM_VERSION@-dev-wasm32: no-code-sections

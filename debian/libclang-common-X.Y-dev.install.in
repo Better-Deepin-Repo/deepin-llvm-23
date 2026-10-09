@@ -1,0 +1,12 @@
+#!/usr/bin/dh-exec
+
+@LLVM_LIBDIR@/clang/@LLVM_VERSION@*/include/*.h
+@LLVM_LIBDIR@/clang/@LLVM_VERSION@*/include/module.modulemap
+[!hurd-any] @LLVM_LIBDIR@/clang/@LLVM_VERSION@*/include/xray/
+[!hurd-any] @LLVM_LIBDIR@/clang/@LLVM_VERSION@*/include/profile/
+@LLVM_LIBDIR@/clang/@LLVM_VERSION@*/include/ppc_wrappers/
+@LLVM_LIBDIR@/clang/@LLVM_VERSION@*/include/openmp_wrappers/
+@LLVM_LIBDIR@/clang/@LLVM_VERSION@*/include/cuda_wrappers/
+@LLVM_LIBDIR@/clang/@LLVM_VERSION@*/include/llvm_libc_wrappers/*.h
+@LLVM_LIBDIR@/clang/@LLVM_VERSION@*/include/llvm_offload_wrappers/
+@LLVM_LIBDIR@/clang/@LLVM_VERSION@*/include/zos_wrappers/

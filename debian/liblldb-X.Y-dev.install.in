@@ -1,0 +1,3 @@
+/@LLVM_DIR@/include/lldb
+#/@LLVM_LIBDIR@/liblldb*a
+/@LLVM_LIBDIR@/liblldb*so

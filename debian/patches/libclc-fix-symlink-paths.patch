@@ -1,0 +1,39 @@
+Description: Fix broken libclc symlink paths during install
+ Two issues are fixed:
+ 1. The symlinks for library aliases were being created with paths relative
+    to LIBCLC_OUTPUT_LIBRARY_DIR instead of relative to the alias directory.
+    This caused broken symlinks like "amdgcn--/tahiti/libclc.bc" instead of
+    the correct "../tahiti/libclc.bc".
+ 2. The install destination for device-specific libraries didn't include
+    the device subdirectory, causing the installed symlinks to be broken
+    because they point to "../device/libclc.bc" but the file was installed
+    directly under the triple directory.
+Author: Sylvestre Ledru <sylvestre@debian.org>
+Bug: https://github.com/llvm/llvm-project/issues/XXXXX
+Forwarded: no
+Last-Update: 2026-02-03
+
+Index: llvm-toolchain-snapshot_23~++20260223093515+cb3d7ffb09e8/libclc/cmake/modules/AddLibclc.cmake
+===================================================================
+--- llvm-toolchain-snapshot_23~++20260223093515+cb3d7ffb09e8.orig/libclc/cmake/modules/AddLibclc.cmake
++++ llvm-toolchain-snapshot_23~++20260223093515+cb3d7ffb09e8/libclc/cmake/modules/AddLibclc.cmake
+@@ -440,11 +440,14 @@ function(add_libclc_builtin_set)
+   add_dependencies( ${ARG_PARENT_TARGET} libclc-${ARG_TRIPLE} )
+ 
+   # Install the created library.
+-  install(
+-    FILES ${libclc_builtins_lib}
+-    DESTINATION ${LIBCLC_INSTALL_DIR}/${ARG_TRIPLE}
+-    COMPONENT ${ARG_PARENT_TARGET}
+-  )
++  # We need to preserve the device directory structure for the symlinks to work
++  if (NOT "${ARG_DEVICE}" STREQUAL "none")
++    set (install_dir ${LIBCLC_INSTALL_DIR}/${ARG_TRIPLE}/${ARG_DEVICE})
++  else()
++    set (install_dir ${LIBCLC_INSTALL_DIR}/${ARG_TRIPLE})
++  endif()
++  install( FILES ${libclc_builtins_lib}
++    DESTINATION ${install_dir}
+ 
+   # SPIR-V targets can exit early here
+   if( ARG_ARCH STREQUAL spirv OR ARG_ARCH STREQUAL spirv64 )

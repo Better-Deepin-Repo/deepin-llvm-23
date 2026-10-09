@@ -1,0 +1,17 @@
+# links inside /usr/lib/@DEB_HOST_MULTIARCH@
+usr/lib/@DEB_HOST_MULTIARCH@/libomp.so.5 usr/lib/@DEB_HOST_MULTIARCH@/libomp.so
+# FIXME: why these names libomp5 and libiomp5?
+usr/lib/@DEB_HOST_MULTIARCH@/libomp.so usr/lib/@DEB_HOST_MULTIARCH@/libomp5.so
+usr/lib/@DEB_HOST_MULTIARCH@/libomp.so usr/lib/@DEB_HOST_MULTIARCH@/libiomp5.so
+
+# links from LLVM libdir to /usr/lib/@DEB_HOST_MULTIARCH@
+# this one is now in the runtime package to make it M-A: same
+usr/lib/x86_64-linux-gnu/libomp.so.5 @LLVM_LIBDIR@/libomp.so.5
+
+# links inside LLVM libdir
+@LLVM_LIBDIR@/libomp.so.5 @LLVM_DIR@/lib/libomp.so
+@LLVM_LIBDIR@/libomp.so @LLVM_DIR@/lib/libomp5.so
+@LLVM_LIBDIR@/libomp.so @LLVM_DIR@/lib/libiomp5.so
+
+# Rationale for this one?
+@LLVM_LIBDIR@/libgomp.so.1 @LLVM_DIR@/lib/libgomp.so

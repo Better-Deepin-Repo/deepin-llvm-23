@@ -1,0 +1,54 @@
+Description: Build LLVMSupport with SSE2 when _Float16 needs it (x86-32)
+ llvm/lib/Support/APFloat.cpp includes libc's shared/math.h, which pulls in
+ the libc _Float16 support. gcc defines __FLT16_MANT_DIG__ on i386 even when
+ SSE2 is disabled (the Debian i386 baseline is i686), so the inline libc
+ helpers fail to build:
+   libc/src/__support/FPUtil/BasicOperations.h:63:67: error: SSE register
+   return with SSE2 disabled
+ Only LLVMSupport is affected (it is the sole target adding llvm/../libc to
+ its include path), so add -msse2 to that target alone, and only when _Float16
+ does not build without it but does build with it. The runtimes (compiler-rt
+ builtins, libc++, ...) keep their normal baseline.
+ .
+ Note that LLVMSupport builds the precompiled header that the rest of LLVM
+ reuses (llvm_update_pch() in AddLLVM.cmake), so this flag also lands on the
+ PCH and makes it mismatch its consumers:
+   error: precompiled file '.../lib/Support/CMakeFiles/LLVMSupport.dir/
+   cmake_pch.hxx.pch' was compiled with the target feature '+sse2' but the
+   current translation unit is not
+ debian/rules therefore passes CMAKE_DISABLE_PRECOMPILE_HEADERS=ON on x86-32,
+ which makes AddLLVM.cmake skip the PCH and its reuse entirely.
+Author: Sylvestre Ledru <sylvestre@debian.org>
+Last-Update: 2026-08-27
+
+Index: llvm-toolchain-snapshot_23/llvm/lib/Support/CMakeLists.txt
+===================================================================
+--- llvm-toolchain-snapshot_23.orig/llvm/lib/Support/CMakeLists.txt
++++ llvm-toolchain-snapshot_23/llvm/lib/Support/CMakeLists.txt
+@@ -407,6 +407,26 @@ target_include_directories(LLVMSupport
+   ${LLVM_SOURCE_DIR}/../libc
+ )
+ 
++# The libc headers included above use _Float16. On x86-32 gcc advertises the
++# type but cannot pass or return it without SSE2, so enable SSE2 for this
++# target only when that is what it takes to build.
++include(CheckCXXSourceCompiles)
++include(CMakePushCheckState)
++set(LLVM_SUPPORT_FLOAT16_TEST_SRC
++    "_Float16 foo(_Float16 x) { return x; }\nint main(void) { return 0; }\n")
++cmake_push_check_state()
++check_cxx_source_compiles("${LLVM_SUPPORT_FLOAT16_TEST_SRC}"
++                          LLVM_SUPPORT_HAS_FLOAT16)
++if(NOT LLVM_SUPPORT_HAS_FLOAT16)
++  string(APPEND CMAKE_REQUIRED_FLAGS " -msse2")
++  check_cxx_source_compiles("${LLVM_SUPPORT_FLOAT16_TEST_SRC}"
++                            LLVM_SUPPORT_HAS_FLOAT16_WITH_SSE2)
++  if(LLVM_SUPPORT_HAS_FLOAT16_WITH_SSE2)
++    target_compile_options(LLVMSupport PRIVATE -msse2)
++  endif()
++endif()
++cmake_pop_check_state()
++
+ if(NOT MSVC)
+   target_compile_options(LLVMSupport PRIVATE "-Wno-c99-extensions") # _Complex warnings.
+ endif()

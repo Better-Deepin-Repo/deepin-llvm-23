@@ -1,0 +1,13 @@
+Index: llvm-toolchain-snapshot_23~++20260622103413+faaec33ab9ea/llvm/CMakeLists.txt
+===================================================================
+--- llvm-toolchain-snapshot_23~++20260622103413+faaec33ab9ea.orig/llvm/CMakeLists.txt
++++ llvm-toolchain-snapshot_23~++20260622103413+faaec33ab9ea/llvm/CMakeLists.txt
+@@ -1072,7 +1072,7 @@ set(LLVM_SPROFDATA_FILE "" CACHE FILEPAT
+ 
+ if(LLVM_INCLUDE_TESTS OR LLVM_ENABLE_SPHINX)
+   # All LLVM Python files should be compatible down to this minimum version.
+-  set(LLVM_MINIMUM_PYTHON_VERSION 3.8)
++  set(LLVM_MINIMUM_PYTHON_VERSION 3.5)
+ else()
+   # FIXME: it is unknown if this is the actual minimum bound
+   set(LLVM_MINIMUM_PYTHON_VERSION 3.0)

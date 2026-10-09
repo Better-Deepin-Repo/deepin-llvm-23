@@ -1,0 +1,1 @@
+libpolly-@LLVM_VERSION@-dev: arch-dependent-file-not-in-arch-specific-directory *@LLVM_LIBDIR@/libPolly*.a*

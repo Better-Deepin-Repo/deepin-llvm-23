@@ -1,0 +1,16 @@
+@LLVM_DIR@/bin/clang
+@LLVM_DIR@/bin/clang++
+@LLVM_DIR@/bin/clang-cpp
+@LLVM_DIR@/bin/clang-scan-deps
+@LLVM_DIR@/bin/clang-cl
+
+#usr/share/man/man1/clang.1     usr/share/man/man1/
+@LLVM_LIBDIR@/cmake/clang/*.cmake
+@LLVM_DIR@/share/clang/bash-autocomplete.sh
+
+usr/bin/clang-@LLVM_VERSION@
+usr/bin/clang++-@LLVM_VERSION@
+usr/bin/clang-cpp-@LLVM_VERSION@
+usr/bin/clang-scan-deps-@LLVM_VERSION@
+usr/bin/clang-cl-@LLVM_VERSION@
+

@@ -1,0 +1,3 @@
+#!/usr/bin/dh-exec
+
+@LLVM_LIBDIR@/libPolly*.a

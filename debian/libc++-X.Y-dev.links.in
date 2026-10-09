@@ -1,0 +1,15 @@
+# links inside /usr/lib/@DEB_HOST_MULTIARCH@
+# NO symlink here, this is a linker script
+#usr/lib/@DEB_HOST_MULTIARCH@/libc++.so.1         usr/lib/@DEB_HOST_MULTIARCH@/libc++.so
+
+# links from LLVM libdir to /usr/lib/@DEB_HOST_MULTIARCH@
+usr/lib/@DEB_HOST_MULTIARCH@/libc++.so.1.0        @LLVM_LIBDIR@/libc++.so.1.0
+usr/lib/@DEB_HOST_MULTIARCH@/libc++.a             @LLVM_LIBDIR@/libc++.a
+usr/lib/@DEB_HOST_MULTIARCH@/libc++.modules.json  @LLVM_LIBDIR@/libc++.modules.json
+usr/lib/@DEB_HOST_MULTIARCH@/libc++experimental.a @LLVM_LIBDIR@/libc++experimental.a
+
+# links inside LLVM libdir
+@LLVM_LIBDIR@/libc++.so.1.0     @LLVM_DIR@/lib/libc++.so.1
+@LLVM_LIBDIR@/libc++.so.1       @LLVM_DIR@/lib/libc++.so
+
+@LLVM_DIR@/include/c++/v1 /usr/include/c++/v1

@@ -1,0 +1,36 @@
+commit 262267104c41f5e5d009a7731756d3c0de35b5f2
+Author: Samuel Thibault <samuel.thibault@ens-lyon.org>
+Date:   Wed Mar 4 01:39:03 2026 +0100
+
+    [llvm] Fix GNU/Hurd build
+    
+    GNU/Hurd does not put a PATH_MAX static constraint on path lengths. We can
+    instead check the symlink length.
+    
+    Signed-off-by: Samuel Thibault <samuel.thibault@ens-lyon.org>
+
+diff --git a/llvm/lib/ExecutionEngine/Orc/TargetProcess/LibraryScanner.cpp b/llvm/lib/ExecutionEngine/Orc/TargetProcess/LibraryScanner.cpp
+index 5d5b2ae543e5..0cd53faf9c1b 100644
+--- a/llvm/lib/ExecutionEngine/Orc/TargetProcess/LibraryScanner.cpp
++++ b/llvm/lib/ExecutionEngine/Orc/TargetProcess/LibraryScanner.cpp
+@@ -439,11 +439,17 @@ std::optional<std::string> PathResolver::readlinkCached(StringRef Path) {
+     return Cache;
+ 
+   // If result not in cache - call system function and cache result
+-  char buf[PATH_MAX];
++  struct stat st;
++  if (lstat(Path.str().c_str(), &st) == -1)
++    return std::nullopt;
++
++  size_t size = st.st_size + 1;
++  auto buf = std::make_unique<char[]>(size);
+   ssize_t len;
+-  if ((len = readlink(Path.str().c_str(), buf, sizeof(buf))) != -1) {
++  if ((len = readlink(Path.str().c_str(), buf.get(), size)) != -1 &&
++      (size_t)len < size) {
+     buf[len] = '\0';
+-    std::string s(buf);
++    std::string s(buf.get());
+     LibPathCache->insert_link(Path, s);
+     return s;
+   }

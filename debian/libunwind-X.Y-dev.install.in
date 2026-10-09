@@ -1,0 +1,5 @@
+@LLVM_LIBDIR@/libunwind.so usr/lib/@DEB_HOST_MULTIARCH@/
+@LLVM_LIBDIR@/libunwind.a  usr/lib/@DEB_HOST_MULTIARCH@/
+usr/include/libunwind
+@LLVM_DIR@/include/*unwind*
+@LLVM_DIR@/include/mach-o/

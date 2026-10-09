@@ -1,0 +1,2 @@
+@LLVM_LIBDIR@/clang/@LLVM_VERSION@*/lib/wasi/libclang_rt.builtins-wasm32.a
+

@@ -1,0 +1,32 @@
+From: Heinrich Schuchardt <heinrich.schuchardt@canonical.com>
+Subject: [PATCH 1/1] clang: use RVA23U64 profile
+
+In riscv::getRISCVArch() update the ISA string that is either returned for
+-mabi=lp64d or for triplet riscv64-linux-gnu.
+
+Forwarded: not-needed
+Last-Update: 2025-08-13
+---
+ clang/lib/Driver/ToolChains/Arch/RISCV.cpp | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+--- a/clang/lib/Driver/ToolChains/Arch/RISCV.cpp
++++ b/clang/lib/Driver/ToolChains/Arch/RISCV.cpp
+@@ -324,7 +324,7 @@ std::string riscv::getRISCVArch(const ll
+         return "rv64imafdcv_zba_zbb_zbs";
+       if (Triple.isOSFuchsia())
+         return "rva22u64_v";
+-      return "rv64imafdc";
++      return "rv64i_m_a_f_d_c_b_v_zic64b_zicbom_zicbop_zicboz_ziccamoa_ziccif_zicclsm_ziccrse_zicntr_zicond_zicsr_zifencei_zihintntl_zihintpause_zihpm_zimop_zmmul_za64rs_zaamo_zalrsc_zawrs_zfa_zfhmin_zca_zcb_zcd_zcmop_zba_zbb_zbs_zkt_zvbb_zve32f_zve32x_zve64d_zve64f_zve64x_zvfhmin_zvkb_zvkt_zvl128b_zvl32b_zvl64b_supm";
+     }
+   }
+ 
+@@ -345,7 +345,7 @@ std::string riscv::getRISCVArch(const ll
+     return "rv64imafdcv_zba_zbb_zbs";
+   if (Triple.isOSFuchsia())
+     return "rva22u64_v";
+-  return "rv64imafdc";
++  return "rv64i_m_a_f_d_c_b_v_zic64b_zicbom_zicbop_zicboz_ziccamoa_ziccif_zicclsm_ziccrse_zicntr_zicond_zicsr_zifencei_zihintntl_zihintpause_zihpm_zimop_zmmul_za64rs_zaamo_zalrsc_zawrs_zfa_zfhmin_zca_zcb_zcd_zcmop_zba_zbb_zbs_zkt_zvbb_zve32f_zve32x_zve64d_zve64f_zve64x_zvfhmin_zvkb_zvkt_zvl128b_zvl32b_zvl64b_supm";
+ }
+ 
+ std::string riscv::getRISCVTargetCPU(const llvm::opt::ArgList &Args,

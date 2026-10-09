@@ -1,0 +1,32 @@
+Description: Fix path lookup for WASI previews
+ getOS() returns the wrong path for WASI preview targets (wasm-wasip1,
+ wasm-wasip2, and wasm-wasip3). For example, passing
+ --target=wasm32-wasip1 returns "wasip1". However,
+ libclang-rt-22-dev-wasm32 installs wasm32 compiler-rt builtins under
+ the "wasi" directory, not the "wasip1" directory, meaning that the
+ toolchain is unable to find the builtins it needs.
+ .
+ This patch makes getOS() return the "wasi" directory when any WASI
+ preview target is used, allowing the toolchain to find the proper wasi
+ builtins.
+Author: Max Gilmour <max.gilmour@canonical.com>
+Bug: https://github.com/llvm/llvm-project/issues/200500
+Bug-Ubuntu: https://bugs.launchpad.net/ubuntu/+source/llvm-toolchain-22/+bug/2152147
+Applied-Upstream: https://github.com/llvm/llvm-project/pull/200501
+Last-Update: 2026-05-29
+---
+Index: llvm-toolchain-snapshot_23~++20260614020500+86543b7a7c3c/clang/lib/Driver/ToolChain.cpp
+===================================================================
+--- llvm-toolchain-snapshot_23~++20260614020500+86543b7a7c3c.orig/clang/lib/Driver/ToolChain.cpp
++++ llvm-toolchain-snapshot_23~++20260614020500+86543b7a7c3c/clang/lib/Driver/ToolChain.cpp
+@@ -849,6 +849,10 @@ StringRef ToolChain::getOSLibName() cons
+     return "sunos";
+   case llvm::Triple::AIX:
+     return "aix";
++  case llvm::Triple::WASIp1:
++  case llvm::Triple::WASIp2:
++  case llvm::Triple::WASIp3:
++    return "wasi";
+   case llvm::Triple::Serenity:
+     return "serenity";
+   default:

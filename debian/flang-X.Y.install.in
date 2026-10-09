@@ -1,0 +1,17 @@
+@LLVM_DIR@/bin/bbc
+@LLVM_DIR@/bin/f18-parse-demo
+@LLVM_DIR@/bin/fir-opt
+@LLVM_DIR@/bin/flang
+@LLVM_DIR@/bin/flang-@LLVM_VERSION@
+@LLVM_DIR@/bin/flang-new
+@LLVM_DIR@/bin/tco
+@LLVM_DIR@/bin/fir-lsp-server
+
+
+usr/bin/bbc-@LLVM_VERSION@
+usr/bin/f18-parse-demo-@LLVM_VERSION@
+usr/bin/fir-opt-@LLVM_VERSION@
+usr/bin/flang-@LLVM_VERSION@
+usr/bin/flang-new-@LLVM_VERSION@
+usr/bin/tco-@LLVM_VERSION@
+usr/bin/fir-lsp-server-@LLVM_VERSION@

@@ -1,0 +1,12 @@
+@LLVM_DIR@/bin/ld.lld*
+@LLVM_DIR@/bin/ld64.lld*
+@LLVM_DIR@/bin/lld-*
+@LLVM_DIR@/bin/lld
+@LLVM_DIR@/bin/wasm-ld
+
+
+usr/bin/lld-link-@LLVM_VERSION@
+usr/bin/ld.lld-@LLVM_VERSION@
+usr/bin/ld64.lld*-@LLVM_VERSION@
+usr/bin/lld-@LLVM_VERSION@*
+usr/bin/wasm-ld-@LLVM_VERSION@

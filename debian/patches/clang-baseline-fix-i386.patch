@@ -1,0 +1,25 @@
+Description: Fix Clang baseline violation
+ Upstream Clang on i386 defaults to -march=pentium4, which violates the
+ current i386 baseline.
+ .
+ This patch changes Clang to default to -march=i686, which matches the
+ current Debian baseline.
+Author: Fanael Linithien <fanael4@gmail.com>
+Forwarded: not-needed
+Last-Update: 2026-06-05
+---
+Index: llvm-toolchain-snapshot_23~++20260629103155+2a215f473fb9/clang/lib/Driver/ToolChains/Arch/X86.cpp
+===================================================================
+--- llvm-toolchain-snapshot_23~++20260629103155+2a215f473fb9.orig/clang/lib/Driver/ToolChains/Arch/X86.cpp
++++ llvm-toolchain-snapshot_23~++20260629103155+2a215f473fb9/clang/lib/Driver/ToolChains/Arch/X86.cpp
+@@ -111,8 +111,8 @@ std::string x86::getX86TargetCPU(const D
+   case llvm::Triple::OpenBSD:
+     return "i586";
+   default:
+-    // Fallback to p4.
+-    return "pentium4";
++    // Fallback to i686.
++    return "i686";
+   }
+ }
+ 

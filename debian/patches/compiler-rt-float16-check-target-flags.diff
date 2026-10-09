@@ -1,0 +1,49 @@
+Description: Fix _Float16 detection for i386 target in compiler-rt builtins
+ The _Float16 support check in builtin-config-ix.cmake was running without
+ target-specific flags, so it tested _Float16 support on the host (x86_64)
+ where it is supported, but then incorrectly applied the result to i386
+ targets (built with -m32) where _Float16 is not supported.
+ .
+ This patch moves the Float16 check into the loop in CMakeLists.txt where
+ CMAKE_REQUIRED_FLAGS is properly set with target-specific flags (including
+ -m32 for i386), ensuring correct per-architecture detection.
+Author: Sylvestre Ledru <sylvestre@debian.org>
+Forwarded: not-yet
+Last-Update: 2026-01-28
+
+Index: llvm-toolchain-snapshot_23~++20260530020821+8d86dc22be4f/compiler-rt/cmake/builtin-config-ix.cmake
+===================================================================
+--- llvm-toolchain-snapshot_23~++20260530020821+8d86dc22be4f.orig/compiler-rt/cmake/builtin-config-ix.cmake
++++ llvm-toolchain-snapshot_23~++20260530020821+8d86dc22be4f/compiler-rt/cmake/builtin-config-ix.cmake
+@@ -282,13 +282,9 @@ else()
+   filter_available_targets(BUILTIN_SUPPORTED_ARCH
+     ${ALL_BUILTIN_SUPPORTED_ARCH})
+ 
+-  # COMPILER_RT_HAS_${arch}_* defines that are shared between lib/builtins/ and test/builtins/
+-  foreach (arch ${BUILTIN_SUPPORTED_ARCH})
+-    # NOTE: The corresponding check for if(APPLE) is in CompilerRTDarwinUtils.cmake
+-    check_c_source_compiles("_Float16 foo(_Float16 x) { return x; }
+-                              int main(void) { return 0; }"
+-                            COMPILER_RT_HAS_${arch}_FLOAT16)
+-  endforeach()
++  # Note: COMPILER_RT_HAS_${arch}_FLOAT16 is checked in lib/builtins/CMakeLists.txt
++  # with proper target flags set (via CMAKE_REQUIRED_FLAGS), since _Float16
++  # support varies by target architecture (e.g., x86_64 supports it but i386 doesn't).
+ endif()
+ 
+ if(OS_NAME MATCHES "Linux|SerenityOS" AND NOT LLVM_USE_SANITIZER AND NOT
+Index: llvm-toolchain-snapshot_23~++20260530020821+8d86dc22be4f/compiler-rt/lib/builtins/CMakeLists.txt
+===================================================================
+--- llvm-toolchain-snapshot_23~++20260530020821+8d86dc22be4f.orig/compiler-rt/lib/builtins/CMakeLists.txt
++++ llvm-toolchain-snapshot_23~++20260530020821+8d86dc22be4f/compiler-rt/lib/builtins/CMakeLists.txt
+@@ -1073,6 +1073,10 @@ else ()
+           endif()
+         endif()
+       endif()
++      # Check _Float16 support with proper target flags
++      check_c_source_compiles("_Float16 foo(_Float16 x) { return x; }
++                               int main(void) { return 0; }"
++                              COMPILER_RT_HAS_${arch}_FLOAT16)
+       append_list_if(COMPILER_RT_HAS_${arch}_FLOAT16 -DCOMPILER_RT_HAS_FLOAT16 BUILTIN_CFLAGS_${arch})
+       check_c_source_compiles("__bf16 foo(__bf16 x) { return x; }
+                                int main(void) { return 0; }"

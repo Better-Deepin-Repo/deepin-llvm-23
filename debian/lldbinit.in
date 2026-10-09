@@ -1,0 +1,4 @@
+# System-wide LLDB initialization file.
+
+# settings set plugin.symbol-locator.debuginfod.server-urls https://debuginfod.elfutils.org/
+

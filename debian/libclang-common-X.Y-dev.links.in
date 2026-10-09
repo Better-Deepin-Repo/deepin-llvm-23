@@ -1,0 +1,7 @@
+@LLVM_LIBDIR@/clang/@LLVM_VERSION@/include usr/include/clang/@LLVM_VERSION@/include
+@LLVM_LIBDIR@/clang/@LLVM_VERSION@/include usr/lib/clang/@LLVM_VERSION@/include
+@LLVM_LIBDIR@/clang/@LLVM_VERSION@/lib usr/lib/clang/@LLVM_VERSION@/lib
+@LLVM_LIBDIR@/clang/@LLVM_VERSION@/include usr/include/clang/@LLVM_VERSION_FULL@/include
+@LLVM_LIBDIR@/clang/@LLVM_VERSION@/include usr/lib/clang/@LLVM_VERSION_FULL@/include
+@LLVM_LIBDIR@/clang/@LLVM_VERSION@/lib usr/lib/clang/@LLVM_VERSION_FULL@/lib
+

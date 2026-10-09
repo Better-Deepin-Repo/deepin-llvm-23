@@ -1,0 +1,12 @@
+@LLVM_LIBDIR@/libc++.so            usr/lib/@DEB_HOST_MULTIARCH@/
+@LLVM_LIBDIR@/libc++.a             usr/lib/@DEB_HOST_MULTIARCH@/
+@LLVM_LIBDIR@/libc++.modules.json  usr/lib/@DEB_HOST_MULTIARCH@/
+@LLVM_LIBDIR@/libc++experimental.a usr/lib/@DEB_HOST_MULTIARCH@/
+@LLVM_DIR@/include/c++/
+@LLVM_DIR@/include/c++/v1/
+
+# C++ modules
+# FIXME: Install these in /usr/lib and provide symlinks in LLVM libdir
+@LLVM_DIR@/share/libc++/v1/std.compat/*.inc
+@LLVM_DIR@/share/libc++/v1/*.cppm
+@LLVM_DIR@/share/libc++/v1/std/*.inc

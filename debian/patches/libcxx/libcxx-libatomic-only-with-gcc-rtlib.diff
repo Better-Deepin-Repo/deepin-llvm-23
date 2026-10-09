@@ -1,0 +1,25 @@
+if libatomic is found only link it if libgcc is the rtlib
+Index: llvm-toolchain-snapshot_23~++20260614031517+86543b7a7c3c/libcxx/CMakeLists.txt
+===================================================================
+--- llvm-toolchain-snapshot_23~++20260614031517+86543b7a7c3c.orig/libcxx/CMakeLists.txt
++++ llvm-toolchain-snapshot_23~++20260614031517+86543b7a7c3c/libcxx/CMakeLists.txt
+@@ -706,13 +706,16 @@ function(cxx_link_system_libraries targe
+       endif()
+     elseif (LIBCXX_HAS_GCC_LIB)
+       target_link_libraries(${target} PRIVATE gcc)
++      if (LIBCXX_HAS_ATOMIC_LIB)
++        target_link_libraries(${target} PRIVATE atomic)
++      endif()
+     elseif (LIBCXX_HAS_GCC_S_LIB)
+       target_link_libraries(${target} PRIVATE gcc_s)
+     endif()
+-  endif()
+ 
+-  if (LIBCXX_HAS_ATOMIC_LIB)
+-    target_link_libraries(${target} PRIVATE atomic)
++    if (LIBCXX_HAS_ATOMIC_LIB)
++      target_link_libraries(${target} PRIVATE atomic)
++    endif()
+   endif()
+ 
+   if (MINGW)

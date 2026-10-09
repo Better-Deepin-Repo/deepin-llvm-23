@@ -1,0 +1,2 @@
+@OCAML_STDLIB_DIR@
+@LLVM_DIR@/share/doc/llvm/ocaml-html/ usr/share/doc/libllvm-@LLVM_VERSION@-ocaml-dev/

@@ -1,0 +1,2 @@
+#!/usr/bin/dh-exec
+# M-A: same: the links from the LLVM libdir to /usr/lib go to the -dev package

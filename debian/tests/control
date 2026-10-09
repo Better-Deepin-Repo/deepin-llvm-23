@@ -1,0 +1,27 @@
+Test-Command: ./debian/debian-llvm-testsuite.bats
+Depends: @, cmake, make, g++, file, dpkg-dev, bats, bats-assert,
+  binutils-gold [amd64 arm64 armel armhf hurd-amd64 hurd-i386 i386 powerpc ppc64 ppc64el s390x sparc64 x32],
+  g++-multilib [amd64 i386 mips64 mips64el mipsel powerpc ppc64 sparc sparc64 x32],
+# Comment the dbgsym package because of bug #917528
+# dbgsym packages not being available in testing
+# clang-23-dbgsym, libclang1-23-dbgsym
+Restrictions: allow-stderr
+Architecture: amd64 arm64 i386
+
+Tests: integration-test-suite-test
+Depends: @, cmake, make, g++
+Restrictions: allow-stderr
+Architecture: amd64 arm64
+
+Tests: cmake-llvm-test
+Depends: gcc, build-essential, cmake, llvm-23-dev
+
+Tests: cmake-clang-test
+Depends: gcc, build-essential, cmake, llvm-23-dev, clang-23, libclang-23-dev
+
+Test-Command: python3 -c "import lldb; print(lldb.__file__); print(lldb)"
+Depends: python3-lldb-23
+Architecture: amd64 arm64 armel armhf i386 loong64 m68k ppc64el riscv64 s390x x32
+
+Test-Command: python3 -c "import clang; print(clang.__file__); print(clang)"
+Depends: python3-clang-23

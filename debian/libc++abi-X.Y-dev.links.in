@@ -1,0 +1,10 @@
+# links inside /usr/lib/@DEB_HOST_MULTIARCH@
+usr/lib/@DEB_HOST_MULTIARCH@/libc++abi.so.1 usr/lib/@DEB_HOST_MULTIARCH@/libc++abi.so
+
+# links from LLVM libdir to /usr/lib/@DEB_HOST_MULTIARCH@
+usr/lib/@DEB_HOST_MULTIARCH@/libc++abi.so.1.0 @LLVM_LIBDIR@/libc++abi.so.1.0
+usr/lib/@DEB_HOST_MULTIARCH@/libc++abi.a      @LLVM_LIBDIR@/libc++abi.a
+
+# links inside LLVM libdir
+@LLVM_LIBDIR@/libc++abi.so.1.0 @LLVM_DIR@/lib/libc++abi.so.1
+@LLVM_LIBDIR@/libc++abi.so.1   @LLVM_DIR@/lib/libc++abi.so

@@ -1,0 +1,6 @@
+@LLVM_DIR@/bin/clang-tidy
+@LLVM_DIR@/bin/run-clang-tidy
+@LLVM_DIR@/share/clang/clang-tidy-diff.py
+
+usr/bin/clang-tidy-@LLVM_VERSION@
+usr/bin/run-clang-tidy-@LLVM_VERSION@

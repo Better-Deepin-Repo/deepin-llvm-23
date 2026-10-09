@@ -1,0 +1,17 @@
+#!/usr/bin/dh-exec
+
+/@LLVM_LIBDIR@/libomp.so   usr/lib/@DEB_HOST_MULTIARCH@/
+/@LLVM_LIBDIR@/libiomp5.so usr/lib/@DEB_HOST_MULTIARCH@/
+# Rationale for these two?
+/@LLVM_LIBDIR@/libgomp.so.1
+/@LLVM_LIBDIR@/libgomp.so
+
+[@OMPD_ARCHS@] /@LLVM_LIBDIR@/libompd.so
+
+/@LLVM_LIBDIR@/clang/@LLVM_VERSION@/include/omp*.h
+[@OMPD_ARCHS@] /@LLVM_LIBDIR@/libarcher_static.a
+[@OMPD_ARCHS@] /@LLVM_LIBDIR@/libarcher.so
+
+@LLVM_LIBDIR@/cmake/openmp/*.cmake
+
+[@OMPD_ARCHS@] @LLVM_DIR@/share/gdb/python/ompd/

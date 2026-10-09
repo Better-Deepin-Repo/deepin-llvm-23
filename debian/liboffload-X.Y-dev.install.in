@@ -1,0 +1,13 @@
+#!/usr/bin/dh-exec
+
+@LLVM_DIR@/bin/llvm-offload-device-info
+@LLVM_DIR@/bin/llvm-omp-kernel-replay
+
+usr/bin/llvm-offload-device-info-@LLVM_VERSION@
+usr/bin/llvm-omp-kernel-replay-@LLVM_VERSION@
+
+@LLVM_LIBDIR@/libomptarget.so
+
+@LLVM_DIR@/include/offload/OffloadAPI.h
+@LLVM_DIR@/include/offload/OffloadPrint.hpp
+@LLVM_LIBDIR@/libLLVMOffload.so

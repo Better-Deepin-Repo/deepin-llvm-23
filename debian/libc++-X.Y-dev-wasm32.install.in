@@ -1,0 +1,5 @@
+@LLVM_LIBDIR@/wasm32-wasi/libc++.a
+@LLVM_LIBDIR@/wasm32-wasi/libc++experimental.a
+@LLVM_LIBDIR@/wasm32-wasi/libc++.modules.json
+@LLVM_DIR@/include/wasm32-wasi/c++/
+@LLVM_DIR@/include/wasm32-wasi/c++/v1/

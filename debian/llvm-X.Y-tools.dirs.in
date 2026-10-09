@@ -1,0 +1,2 @@
+/@LLVM_DIR@/build/unittests
+/@LLVM_DIR@/utils/lit/

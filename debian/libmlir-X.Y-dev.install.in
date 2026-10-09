@@ -1,0 +1,9 @@
+@LLVM_DIR@/include/mlir-c/
+@LLVM_DIR@/include/mlir/
+@LLVM_LIBDIR@/cmake/mlir/
+
+@LLVM_LIBDIR@/libMLIR.so
+@LLVM_LIBDIR@/libMLIR*.a
+@LLVM_LIBDIR@/libmlir*.so
+#@LLVM_LIBDIR@/libmlir_*.a
+@LLVM_LIBDIR@/libMLIRExecutionEngineShared.so

@@ -1,0 +1,2 @@
+libc++-@LLVM_VERSION@-dev: arch-dependent-file-not-in-arch-specific-directory *@LLVM_LIBDIR@/libc++.a*
+libc++-@LLVM_VERSION@-dev: arch-dependent-file-not-in-arch-specific-directory *@LLVM_LIBDIR@/libc++experimental.a*

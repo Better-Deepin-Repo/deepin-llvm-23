@@ -1,0 +1,5 @@
+#! /usr/bin/dh-exec
+libLLVMOffload.so.@LLVM_VERSION@.@LLVM_VERSION_MINOR@ #PACKAGE# #MINVER#
+ (symver)VERS1.0 1:21
+libomptarget.so.@LLVM_VERSION@.@LLVM_VERSION_MINOR@ #PACKAGE# #MINVER#
+ (symver)VERS1.0 1:21

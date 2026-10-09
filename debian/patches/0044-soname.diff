@@ -1,0 +1,31 @@
+---
+ clang/tools/libclang/CMakeLists.txt |    2 +-
+ tools/llvm-shlib/CMakeLists.txt     |    1 +
+ 2 files changed, 2 insertions(+), 1 deletion(-)
+
+Index: llvm-toolchain-snapshot_23~++20260614031517+86543b7a7c3c/clang/tools/libclang/CMakeLists.txt
+===================================================================
+--- llvm-toolchain-snapshot_23~++20260614031517+86543b7a7c3c.orig/clang/tools/libclang/CMakeLists.txt
++++ llvm-toolchain-snapshot_23~++20260614031517+86543b7a7c3c/clang/tools/libclang/CMakeLists.txt
+@@ -133,7 +133,7 @@ if (UNIX AND "${CMAKE_SYSTEM_NAME}" MATC
+     remove_definitions("-D_XOPEN_SOURCE=700")
+ endif()
+ 
+-add_clang_library(libclang ${ENABLE_SHARED} ${ENABLE_STATIC} INSTALL_WITH_TOOLCHAIN
++add_clang_library(libclang ${ENABLE_SHARED} ${ENABLE_STATIC} INSTALL_WITH_TOOLCHAIN SONAME
+   OUTPUT_NAME ${output_name}
+   ${SOURCES}
+ 
+Index: llvm-toolchain-snapshot_23~++20260614031517+86543b7a7c3c/llvm/tools/llvm-shlib/CMakeLists.txt
+===================================================================
+--- llvm-toolchain-snapshot_23~++20260614031517+86543b7a7c3c.orig/llvm/tools/llvm-shlib/CMakeLists.txt
++++ llvm-toolchain-snapshot_23~++20260614031517+86543b7a7c3c/llvm/tools/llvm-shlib/CMakeLists.txt
+@@ -50,6 +50,8 @@ if(LLVM_BUILD_LLVM_DYLIB)
+     target_link_options(LLVM PRIVATE LINKER:--export-all-symbols)
+   endif()
+ 
++  set_property(TARGET LLVM PROPERTY VERSION "1") # Append .1 to SONAME
++
+   list(REMOVE_DUPLICATES LIB_NAMES)
+   if("${CMAKE_SYSTEM_NAME}" STREQUAL "Darwin")
+     set(LIB_NAMES -Wl,-all_load ${LIB_NAMES})
