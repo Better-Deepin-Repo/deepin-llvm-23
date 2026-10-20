@@ -4,7 +4,7 @@ Priority: optional
 Rules-Requires-Root: no
 Maintainer: LLVM Packaging Team <pkg-llvm-team@lists.alioth.debian.org>
 Uploaders: Sylvestre Ledru <sylvestre@debian.org>, Gianfranco Costamagna <locutusofborg@debian.org>
-Build-Depends: debhelper (>= 11.0), cmake, ninja-build,
+Build-Depends: debhelper-compat (= 11), cmake, ninja-build,
     chrpath, texinfo, sharutils,
     libelf-dev,
     libffi-dev,

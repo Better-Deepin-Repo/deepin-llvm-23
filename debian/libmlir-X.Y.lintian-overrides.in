@@ -1,1 +1,3 @@
 libmlir-@LLVM_VERSION@: arch-dependent-file-not-in-arch-specific-directory *@LLVM_LIBDIR@/*
+# libMLIR.so.@LLVM_VERSION@.1 lives in libmlir-@LLVM_VERSION@, by design
+libmlir-@LLVM_VERSION@: package-name-doesnt-match-sonames libMLIR@LLVM_VERSION@.1

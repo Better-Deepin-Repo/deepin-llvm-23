@@ -1,3 +1,49 @@
+llvm-toolchain-23 (1:23.1.3-1) unstable; urgency=medium
+
+  * New upstream release
+  * libmlir-23: also expose libMLIR.so and the MLIR runtime libraries
+    under /usr/lib/<triplet>/, they were only shipped in the private
+    /usr/lib/llvm-23/lib directory. (Closes: #1142996)
+  * libfuzzer-23-dev: depend on libclang-rt-23-dev. -fsanitize=fuzzer
+    links libclang_rt.fuzzer, libclang_rt.fuzzer_interceptors and
+    libclang_rt.ubsan_standalone, which are shipped by libclang-rt-23-dev
+    and were only a Recommends of libclang-common-23-dev, so they are
+    missing in a build chroot. (Closes: #1147575)
+  * d/rules: pass LLVM_ENABLE_PER_TARGET_RUNTIME_DIR through to the stage 2
+    build. Only the stage 1 build and the runtimes sub-builds had it set to
+    OFF, so the installed clang driver defaulted to the per-target layout
+    (lib/clang/23/lib/x86_64-pc-linux-gnu) while compiler-rt is installed in
+    lib/clang/23/lib/linux. "clang -print-runtime-dir" pointed at a
+    non-existent directory and the error messages for a missing
+    libclang-rt-23-dev named the wrong path.
+  * lldb: move the system-wide lldbinit from /etc/lldb to /etc/lldb-23.
+    The unversioned path made liblldb-23 conflict with liblldb-22 on
+    /etc/lldb/lldbinit. (Closes: #1147981)
+  * Fix some lintian warnings:
+    - d/copyright: add the missing License field to the
+      clang/lib/Headers/cuda_wrappers/* paragraph and add the missing
+      BSD-3-Clause license paragraph
+    - d/patches/unbreak-arhmf.patch: remove, not in the series and
+      fixed upstream
+    - d/source/lintian-overrides: drop mismatched source-is-missing
+      overrides already covered by llvm/test/* and lldb/test/*
+    - d/clang-X.Y-doc.lintian-overrides.in: fix the alien
+      privacy-breach-generic tag (stray colon)
+    - d/clang-tools-X.Y.lintian-overrides.in: manpage-has-useless-whatis-entry
+      was renamed to useless-whatis-entry
+    - d/compat, d/control.in: use debhelper-compat (= 11) instead
+    - d/lldb-X.Y.postinst.in: remove, lldb-23 ships no shared library
+      so calling ldconfig is unneeded
+    - d/NEWS: use a version present in the changelog
+      (debian-news-entry-has-unknown-version)
+    - d/libmlir-X.Y.lintian-overrides.in: override
+      package-name-doesnt-match-sonames
+    - d/libc++1.lintian-overrides.in, d/libllvmX.Y.lintian-overrides.in:
+      override lacks-unversioned-link-to-shared-library, the .so link
+      is shipped by the -dev package
+
+ -- Sylvestre Ledru <sylvestre@debian.org>  Tue, 06 Oct 2026 17:35:24 +0200
+
 llvm-toolchain-23 (1:23.1.2-1) unstable; urgency=medium
 
   * New upstream release

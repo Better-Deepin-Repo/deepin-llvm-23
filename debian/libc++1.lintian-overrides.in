@@ -1,2 +1,4 @@
 libc++1: arch-dependent-file-not-in-arch-specific-directory *@LLVM_LIBDIR@/libc++.so.1.0*
 libc++1: breaks-without-version
+# The unversioned libc++.so link is shipped by libc++-@LLVM_VERSION@-dev
+libc++1: lacks-unversioned-link-to-shared-library *
